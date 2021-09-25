@@ -10,10 +10,10 @@ function LocationMarker({
   function handlePrice(days, price) {
     switch (days) {
       case "2":
-        return Intl.NumberFormat("en-US").format(price / 2);
+        return Intl.NumberFormat("en-US").format( Math.ceil((price / 2)/5000)*5000);
 
       case "3":
-        return Intl.NumberFormat("en-US").format(price * 0.6);
+        return Intl.NumberFormat("en-US").format( Math.ceil((price * 0.6)/5000) * 5000 );
 
       default:
         return Intl.NumberFormat("en-US").format(price);
