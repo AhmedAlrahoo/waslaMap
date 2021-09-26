@@ -17,7 +17,7 @@ const handleLabel = (days) => {
       default:
         return "دوام كامل";
     }
-  } else return "حدد المنطقة";
+  } else return "اختر عدد الايام";
 };
 function SelectDays({ days, setDays }) {
   return (
