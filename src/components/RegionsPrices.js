@@ -1,9 +1,10 @@
 import Coords from "../coords/Coords";
 
 function RegionsPrices(map, maps, setPrice, setLatLong, latLong) {
-  var L_Zone_45 = new maps.Polygon({
-    paths: Coords["left-region 45"],
+  var L_Zone_50 = new maps.Polygon({
+    paths: Coords["left-region 50"],
   });
+
   var L_Zone_60 = new maps.Polygon({
     paths: Coords["left-region 60"],
   });
@@ -29,13 +30,13 @@ function RegionsPrices(map, maps, setPrice, setLatLong, latLong) {
     paths: Coords["right-region 80"],
   });
 
-  if (
+   if (
     maps.geometry.poly.containsLocation(
       { lat: () => latLong.lat, lng: () => latLong.lng },
-      L_Zone_45
+      L_Zone_50
     )
   ) {
-    setPrice(45000);
+    setPrice(50000);
   } else if (
     maps.geometry.poly.containsLocation(
       { lat: () => latLong.lat, lng: () => latLong.lng },
@@ -96,8 +97,9 @@ function RegionsPrices(map, maps, setPrice, setLatLong, latLong) {
 
   maps.event.addListener(map, "click", (e) => {
     setLatLong({ lat: e.latLng.lat(), lng: e.latLng.lng() });
-    if (maps.geometry.poly.containsLocation(e.latLng, L_Zone_45)) {
-      setPrice(45000);
+
+    if (maps.geometry.poly.containsLocation(e.latLng, L_Zone_50)) {
+      setPrice(50000);
     } else if (maps.geometry.poly.containsLocation(e.latLng, L_Zone_60)) {
       setPrice(60000);
     } else if (maps.geometry.poly.containsLocation(e.latLng, L_Zone_65)) {

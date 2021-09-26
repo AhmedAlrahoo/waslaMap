@@ -5,14 +5,27 @@ import { ChevronDownIcon } from "@heroicons/react/solid";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
-
-function SelectDays({days ,setDays }) {
+const handleLabel = (days) => {
+  if (days) {
+    switch (days) {
+      case "2":
+        return "يومين";
+      case "3":
+        return "ثلاثة ايام";
+      case "5":
+        return "دوام كامل";
+      default:
+        return "دوام كامل";
+    }
+  } else return "حدد المنطقة";
+};
+function SelectDays({ days, setDays }) {
   return (
-    <Menu as="div" className="relative inline-block text-left">
+    <Menu as="div" className="relative inline-block text-left w-1/2">
       <div>
-        <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-lg font-medium text-secondary hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
-            {days ? days : "اختر عدد ايام الدوام"}
-          <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
+        <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-lg font-medium text-secondary hover:bg-gray-50 focus:outline-none ">
+          {handleLabel(days)}
+          <ChevronDownIcon className="absolute right-4 -mr-1 ml-2 h-5 w-5" aria-hidden="true" />
         </Menu.Button>
       </div>
 
@@ -37,7 +50,7 @@ function SelectDays({days ,setDays }) {
                   )}
                   value={2}
                 >
-                  2
+                  يومين
                 </button>
               )}
             </Menu.Item>
@@ -51,21 +64,7 @@ function SelectDays({days ,setDays }) {
                   )}
                   value={3}
                 >
-                  3
-                </button>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <button
-                  onClick={(e) => setDays(e.target.value)}
-                  className={classNames(
-                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                    "w-full px-4 py-2 text-lg"
-                  )}
-                  value={4}
-                >
-                  4
+                  ثلاثة ايام
                 </button>
               )}
             </Menu.Item>
@@ -80,7 +79,7 @@ function SelectDays({days ,setDays }) {
                   )}
                   value={5}
                 >
-                  5
+                  دوام كامل
                 </button>
               )}
             </Menu.Item>

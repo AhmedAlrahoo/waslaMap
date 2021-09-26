@@ -1,3 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo&display=swap');
+
+*{
+    font-family: 'Cairo'
+}
+Menu{
+    pointer-events: none;
+}
+Menu > * {
+    pointer-events: auto;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

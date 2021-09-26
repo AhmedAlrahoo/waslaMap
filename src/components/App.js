@@ -12,7 +12,7 @@ function App() {
   const [reRenderKey, setReRenderKey] = useState(0);
   const [latLong, setLatLong] = useState({});
   const [price, setPrice] = useState();
-  const [days, setDays] = useState(0)
+  const [days, setDays] = useState(0);
   const Locator = () => {
     navigator.geolocation.getCurrentPosition(
       function (position) {
@@ -33,39 +33,62 @@ function App() {
     Locator();
     await mapRevealAnimation.start({
       opacity: [0, 0.5, 1],
-      transition: { duration: 2 },
+      transition: { duration: 1 },
     });
     markerRevealAnimation.start({
       opacity: [0, 0.5, 1],
     });
   }, []);
+  const createMapOptions = (maps) => {
+    return {
+      zoomControl: false,
+      fullscreenControl: false,
+      gestureHandling: "greedy",
+    };
+  };
   return (
     <motion.div initial={{ opacity: 0 }} animate={mapRevealAnimation}>
       <div className="App relative">
         <GoogleMapReact
           key={reRenderKey}
-          className="relative"
+          className="h-screen relative"
           bootstrapURLKeys={{
             key: "AIzaSyD1gxbKg2bwRVCo_7Z-SLnmea8CGcoQCKk",
             libraries: ["geometry"],
           }}
           zoom={14}
+          onChange={() =>
+           { priceAnimation.start({
+              scale: [null, 1.1, 1],
+            })
+          }
+          }
+          onClick={()=>{
+            markerRevealAnimation.start({
+              opacity:[null,0.5,1],
+              transition:{duration:0.5}
+            })
+          }}
           center={{ lat: latLong.lat, lng: latLong.lng }}
           yesIWantToUseGoogleMapApiInternals
           onGoogleApiLoaded={({ map, maps }) =>
-            RegionsPrices(map, maps, setPrice, setLatLong, latLong, Locator)
+            RegionsPrices(map, maps, setPrice, setLatLong, latLong, Locator, priceAnimation)
           }
+          options={createMapOptions}
         >
-          <LocationMarker
-            markerRevealAnimation={markerRevealAnimation}
-            priceAnimation={priceAnimation}
-            days={days}
-            price={price}
-            lat={latLong.lat}
-            lng={latLong.lng}
-          />
+
+            <LocationMarker
+              markerRevealAnimation={markerRevealAnimation}
+              priceAnimation={priceAnimation}
+              days={days}
+              price={price}
+              setLatLong={setLatLong}
+              lat={latLong.lat}
+              lng={latLong.lng}
+            />
+          
         </GoogleMapReact>
-        <div className="w-screen mx-auto my-5 absolute bottom-0 ">
+        <div style={{"pointer-events": "none" }} className="w-screen mx-auto my-5 fixed bottom-4">
           <motion.button whileTap={{ scale: 1.05 }}>
             <button
               id="locate_me"
@@ -74,19 +97,20 @@ function App() {
                 setReRenderKey(reRenderKey + 1);
                 await mapRevealAnimation.start({
                   opacity: [0, 0.5, 1],
-                  transition: { duration: 2 },
+                  transition: { duration: 1 },
                 });
                 markerRevealAnimation.start({
                   opacity: [0, 0.5, 1],
                 });
               }}
-              className="rounded-lg p-3 text-white active:bg-darker bg-primary "
+              style={{"border": "none", "pointer-events": "auto"}}
+              className="rounded-lg p-3 text-white active:bg-darker bg-primary text-xl"
             >
-              Locate Me
+              منطقتي
             </button>
           </motion.button>
         </div>
-        <div className="w-screen mx-auto my-5 absolute top-0">
+        <div className="w-screen mx-auto my-5 fixed top-2">
           <SelectDays days={days} setDays={setDays}></SelectDays>
         </div>
       </div>
