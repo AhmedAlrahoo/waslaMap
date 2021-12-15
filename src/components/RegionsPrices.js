@@ -1,6 +1,9 @@
 import Coords from "../coords/Coords";
 
 function RegionsPrices(map, maps, setPrice, setLatLong, latLong) {
+
+ 
+
   var L_Zone_50 = new maps.Polygon({
     paths: Coords["left-region 50"],
   });
@@ -10,6 +13,9 @@ function RegionsPrices(map, maps, setPrice, setLatLong, latLong) {
   });
   var L_Zone_65 = new maps.Polygon({
     paths: Coords["left-region 65"],
+  });
+  var L_Zone_65_2 = new maps.Polygon({
+    paths: Coords["left-region 65-2"],
   });
   var L_Zone_70 = new maps.Polygon({
     paths: Coords["left-region 70"],
@@ -32,10 +38,9 @@ function RegionsPrices(map, maps, setPrice, setLatLong, latLong) {
   var R_Zone_80 = new maps.Polygon({
     paths: Coords["right-region 80"],
   });
-
    if (
     maps.geometry.poly.containsLocation(
-      { lat: () => latLong.lat, lng: () => latLong.lng },
+      { lat:  latLong.lat, lng:  latLong.lng },
       L_Zone_50
     )
   ) {
@@ -43,7 +48,7 @@ function RegionsPrices(map, maps, setPrice, setLatLong, latLong) {
   } 
   else if (
     maps.geometry.poly.containsLocation(
-      { lat: () => latLong.lat, lng: () => latLong.lng },
+      { lat:  latLong.lat, lng:  latLong.lng },
       L_Zone_60
     )
   ) 
@@ -53,7 +58,7 @@ function RegionsPrices(map, maps, setPrice, setLatLong, latLong) {
   }
   else if (
     maps.geometry.poly.containsLocation(
-      { lat: () => latLong.lat, lng: () => latLong.lng },
+      { lat:  latLong.lat, lng:  latLong.lng },
       L_Zone_70_2
     )
   ) 
@@ -63,81 +68,96 @@ function RegionsPrices(map, maps, setPrice, setLatLong, latLong) {
   }
    else if (
     maps.geometry.poly.containsLocation(
-      { lat: () => latLong.lat, lng: () => latLong.lng },
+      { lat:  latLong.lat, lng:  latLong.lng },
       L_Zone_65
     )
   ) {
     setPrice(65000);
-  } else if (
+  } 
+   else if (
     maps.geometry.poly.containsLocation(
-      { lat: () => latLong.lat, lng: () => latLong.lng },
+      { lat:  latLong.lat, lng:  latLong.lng },
+      L_Zone_65_2
+    )
+  ) {
+    setPrice(65000);
+  } 
+  else if (
+    maps.geometry.poly.containsLocation(
+      { lat:  latLong.lat, lng:  latLong.lng },
       L_Zone_70
     )
   ) {
     setPrice(70000);
   } else if (
     maps.geometry.poly.containsLocation(
-      { lat: () => latLong.lat, lng: () => latLong.lng },
+      { lat:  latLong.lat, lng:  latLong.lng },
       R_Zone_60
     )
   ) {
     setPrice(60000);
   } else if (
     maps.geometry.poly.containsLocation(
-      { lat: () => latLong.lat, lng: () => latLong.lng },
+      { lat:  latLong.lat, lng:  latLong.lng },
       R_Zone_65
     )
   ) {
     setPrice(65000);
   } else if (
     maps.geometry.poly.containsLocation(
-      { lat: () => latLong.lat, lng: () => latLong.lng },
+      { lat:  latLong.lat, lng:  latLong.lng },
       R_Zone_70
     )
   ) {
     setPrice(70000);
   } else if (
     maps.geometry.poly.containsLocation(
-      { lat: () => latLong.lat, lng: () => latLong.lng },
+      { lat:  latLong.lat, lng:  latLong.lng },
       R_Zone_70_2
     )
   ) {
     setPrice(70000);
   } else if (
     maps.geometry.poly.containsLocation(
-      { lat: () => latLong.lat, lng: () => latLong.lng },
+      { lat:  latLong.lat, lng:  latLong.lng },
       R_Zone_80
     )
   ) {
     setPrice(80000);
   } else setPrice(0);
 
+  
+
+
   maps.event.addListener(map, "click", (e) => {
     setLatLong({ lat: e.latLng.lat(), lng: e.latLng.lng() });
 
-    if (maps.geometry.poly.containsLocation(e.latLng, L_Zone_50)) {
+    if (maps.geometry.poly.containsLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() }, L_Zone_50)) {
       setPrice(50000);
-    } else if (maps.geometry.poly.containsLocation(e.latLng, L_Zone_60)) {
+    } else if (maps.geometry.poly.containsLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() }, L_Zone_60)) {
       setPrice(60000);
     }
-     else if (maps.geometry.poly.containsLocation(e.latLng, L_Zone_65)) {
+     else if (maps.geometry.poly.containsLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() }, L_Zone_65)) {
       setPrice(65000);
     } 
-    else if (maps.geometry.poly.containsLocation(e.latLng, L_Zone_70)) {
-      setPrice(70000);
-    }
-    else if (maps.geometry.poly.containsLocation(e.latLng, L_Zone_70_2)) {
-      setPrice(70000);
-    }
-     else if (maps.geometry.poly.containsLocation(e.latLng, R_Zone_60)) {
-      setPrice(60000);
-    } else if (maps.geometry.poly.containsLocation(e.latLng, R_Zone_65)) {
+     else if (maps.geometry.poly.containsLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() }, L_Zone_65_2)) {
       setPrice(65000);
-    } else if (maps.geometry.poly.containsLocation(e.latLng, R_Zone_70)) {
+    } 
+    else if (maps.geometry.poly.containsLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() }, L_Zone_70)) {
       setPrice(70000);
-    } else if (maps.geometry.poly.containsLocation(e.latLng, R_Zone_70_2)) {
+    }
+    else if (maps.geometry.poly.containsLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() }, L_Zone_70_2)) {
       setPrice(70000);
-    } else if (maps.geometry.poly.containsLocation(e.latLng, R_Zone_80)) {
+    }
+     else if (maps.geometry.poly.containsLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() }, R_Zone_60)) {
+      setPrice(60000);
+    } else if (maps.geometry.poly.containsLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() }, R_Zone_65)) {
+      setPrice(65000);
+    } else if (maps.geometry.poly.containsLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() }, R_Zone_70)) {
+      setPrice(70000);
+    } else if (maps.geometry.poly.containsLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() }, R_Zone_70_2)) {
+      setPrice(70000);
+    } else if (maps.geometry.poly.containsLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() }, R_Zone_80)) {
       setPrice(80000);
     } else setPrice(0);
   });
