@@ -1,7 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo&display=swap');
 
+html{
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    overflow-y: scroll;
+}
+
 *{
-    font-family: 'Cairo'
+    font-family: 'Cairo';
 }
 Menu{
     pointer-events: none;
@@ -9,6 +15,13 @@ Menu{
 Menu > * {
     pointer-events: auto;
 }
+  
+
+
+.snapper{
+    scroll-snap-align: center;
+}
+
 
 @tailwind base;
 @tailwind components;
