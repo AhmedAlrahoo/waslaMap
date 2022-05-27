@@ -1,44 +1,90 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-function LocationMarker({ markerRevealAnimation, priceAnimation, price }) {
-  // function handlePrice(days, price) {
-  //   switch (days) {
-  //     case "2":
-  //       return Intl.NumberFormat("en-US").format( Math.ceil((((price-10000) * 0.5 )+10000)/5000)*5000); // to get price based on days
+function LocationMarker({
+  markerRevealAnimation,
+  priceAnimation,
+  days,
+  price,
+}) {
+  function handlePrice(days, price) {
+    switch (days) {
+      case "1":
+        switch (price) {
+          case 65000:
+            return Intl.NumberFormat("en-US").format(30000);
+          case 70000:
+            return Intl.NumberFormat("en-US").format(35000);
+          default:
+            return Intl.NumberFormat("en-US").format(25000);
+        }
+      case "2":
+        switch (price) {
+          case 55000:
+            return Intl.NumberFormat("en-US").format(30000);
+          case 60000:
+            return Intl.NumberFormat("en-US").format(35000);
+          case 65000:
+            return Intl.NumberFormat("en-US").format(40000);
+          case 70000:
+            return Intl.NumberFormat("en-US").format(45000);
+            default: return 0
+        }
+      case "3":
+        switch (price) {
+          case 55000:
+            return Intl.NumberFormat("en-US").format(40000);
+          case 60000:
+            return Intl.NumberFormat("en-US").format(45000);
+          case 65000:
+            return Intl.NumberFormat("en-US").format(50000);
+          case 70000:
+            return Intl.NumberFormat("en-US").format(55000);
+            default: return 0
+        }
 
-  //     case "3":
-  //       return Intl.NumberFormat("en-US").format(Math.ceil((((price-10000) * 0.6 )+10000)/5000)*5000 );
-  //     case "5":
-  //       return Intl.NumberFormat("en-US").format( price );
-  //     default:
-  //       return Intl.NumberFormat("en-US").format(price);
-  //   }
-  // }
-  // function handleLabel(days, price){
-  //   if(price && days){
-  //     return handlePrice(days,price)
-  //   }
-  //   else if(price && !days){
-  //     return "اختر عدد الايام"
+      case "4":
+        switch (price) {
+          case 55000:
+            return Intl.NumberFormat("en-US").format(50000);
+          case 60000:
+            return Intl.NumberFormat("en-US").format(55000);
+          case 65000:
+            return Intl.NumberFormat("en-US").format(60000);
+          case 70000:
+            return Intl.NumberFormat("en-US").format(65000);
+            default: return 0
+        }
 
-  //   }
-  //   else if(!price && days){
-  //     return "حدد المنطقة"
-  //   }
-  //   else {
-  //     console.log(price,   days);
-  //     return "حدد المنطقة"}
-  // }
-  const handlePrice = (price)=>{
-if(price){
- return Intl.NumberFormat("en-US").format(price)
-}
-else return "حدد المنطقة"
+      case "5":
+        switch (price) {
+          default:
+            return Intl.NumberFormat("en-US").format(price);
+        }
+      default:
+        return Intl.NumberFormat("en-US").format(price);
+    }
   }
+  function handleLabel(days, price) {
+    if (price && days) {
+      return handlePrice(days, price);
+    } else if (price && !days) {
+      return "اختر عدد الايام";
+    } else if (!price && days) {
+      return "المنطقة غير مشمولة";
+    } else {
+      return "المنطقة غير مشمولة";
+    }
+  }
+  //   const handlePrice = (price)=>{
+  // if(price){
+  //  return Intl.NumberFormat("en-US").format(price)
+  // }
+  // else return "حدد المنطقة"
+  //   }
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={markerRevealAnimation}>
+    <motion.div initial={{ opacity: 1 }} animate={markerRevealAnimation}>
       <div
         style={{ transform: "translate(-50%, -90%)" }}
         className="absolute flex flex-col justify-items-center items-center"
@@ -49,7 +95,7 @@ else return "حدد المنطقة"
               dir="rtl"
               className="whitespace-nowrap text-center text-xl text-white"
             >
-              {handlePrice(price)}
+              {handleLabel(days, price)}
             </h3>
           </div>
         </motion.div>

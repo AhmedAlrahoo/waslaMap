@@ -4,6 +4,7 @@ import GoogleMapReact from "google-map-react";
 import LocationMarker from "./LocationMarker";
 import RegionsPrices from "./RegionsPrices";
 import { motion, useAnimation } from "framer-motion";
+import SelectDays from "./SelectDays";
 function Map() {
   const priceAnimation = useAnimation();
   const mapRevealAnimation = useAnimation();
@@ -11,6 +12,7 @@ function Map() {
   const [reRenderKey, setReRenderKey] = useState(0);
   const [latLong, setLatLong] = useState({});
   const [price, setPrice] = useState();
+  const [days, setDays] = useState(0);
   const Locator = () => {
     navigator.geolocation.getCurrentPosition(
       function (position) {
@@ -44,6 +46,22 @@ function Map() {
       gestureHandling: "greedy",
     };
   };
+ const HandleChange = () =>
+  { priceAnimation.start({
+     scale: [null, 1.1, 1],
+   })
+ }
+ const handleButtonClick = async () => {
+  await Locator();
+  setReRenderKey(reRenderKey + 1);
+  await mapRevealAnimation.start({
+    opacity: [0, 0.5, 1],
+    transition: { duration: 1 },
+  });
+  markerRevealAnimation.start({
+    opacity: [0, 0.5, 1],
+  });
+}
   return (
     <motion.div initial={{ opacity: 0 }} animate={mapRevealAnimation}>
       <div className="App relative">
@@ -55,11 +73,8 @@ function Map() {
             libraries: ["geometry"],
           }}
           zoom={14}
-          onChange={() =>
-           { priceAnimation.start({
-              scale: [null, 1.1, 1],
-            })
-          }
+          onChange={
+            HandleChange
           }
           onClick={()=>{
             markerRevealAnimation.start({
@@ -78,7 +93,7 @@ function Map() {
             <LocationMarker
               markerRevealAnimation={markerRevealAnimation}
               priceAnimation={priceAnimation}
-              days={5}
+              days={days}
               price={price}
               setLatLong={setLatLong}
               lat={latLong.lat}
@@ -90,23 +105,16 @@ function Map() {
           <motion.button whileTap={{ scale: 1.05 }}>
             <button
               id="locate_me"
-              onClick={async () => {
-                await Locator();
-                setReRenderKey(reRenderKey + 1);
-                await mapRevealAnimation.start({
-                  opacity: [0, 0.5, 1],
-                  transition: { duration: 1 },
-                });
-                markerRevealAnimation.start({
-                  opacity: [0, 0.5, 1],
-                });
-              }}
+              onClick={handleButtonClick}
               style={{"border": "none", "pointer-events": "auto"}}
               className="rounded-lg p-3 text-white active:bg-darker bg-primary text-xl"
             >
               منطقتي
             </button>
           </motion.button>
+        </div>
+        <div className="w-screen mx-auto my-5 fixed top-2">
+          <SelectDays days={days} setDays={setDays}></SelectDays>
         </div>
       </div>
     </motion.div>
