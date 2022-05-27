@@ -6,7 +6,23 @@ function LocationMarker({
   priceAnimation,
   days,
   price,
+  distance,
+  destination
 }) {
+  
+  function handlePriceDistance(days,distance, destination){
+    if(destination === "المحطة"){
+      let price = ((45000 + (1500 * (distance/1000))) - (Math.round((45000 + (1500 * (distance/1000)))/5000)*5000)) > 1000 ? (Math.ceil((45000 + (1500 * (distance/1000)))/5000)*5000) : (Math.round((45000 + (1500 * (distance/1000)))/5000)*5000);
+      return parseInt(days) === 5 ? Intl.NumberFormat("en-US").format(price) : Intl.NumberFormat("en-US").format(price - 5000 - (30000 - ((parseInt(days)-1)*10000)))
+    }
+    else if(destination === "الجامعة"){
+      let price = ((50000 + (1500 * (distance/1000))) - (Math.round((50000 + (1500 * (distance/1000)))/5000)*5000)) > 1000 ? (Math.ceil((50000 + (1500 * (distance/1000)))/5000)*5000) : (Math.round((50000 + (1500 * (distance/1000)))/5000)*5000);
+      return parseInt(days) === 5 ? Intl.NumberFormat("en-US").format(price) : Intl.NumberFormat("en-US").format(price - 5000 - (30000 - ((parseInt(days)-1)*10000)))
+    }
+    else return "المنطقة غير مشمولة"
+    
+    
+  }
   function handlePrice(days, price) {
     switch (days) {
       case "1":
@@ -82,7 +98,22 @@ function LocationMarker({
   // }
   // else return "حدد المنطقة"
   //   }
+  function handleLabelDistance(days,distance,destination){
 
+    if (days && destination) {
+      return handlePriceDistance(days, distance, destination);
+    } else if (destination && !days) {
+      return "اختر عدد الايام";
+    } else if (!destination && days) {
+      return "حدد الوجهة";
+    }else if (!destination && !days) {
+      return "اختر عدد الايام";
+    } 
+    else {
+      return "المنطقة غير مشمولة";
+    }
+
+  }
   return (
     <motion.div initial={{ opacity: 1 }} animate={markerRevealAnimation}>
       <div
@@ -95,7 +126,7 @@ function LocationMarker({
               dir="rtl"
               className="whitespace-nowrap text-center text-xl text-white"
             >
-              {handleLabel(days, price)}
+              {handleLabelDistance(days, distance, destination)}
             </h3>
           </div>
         </motion.div>

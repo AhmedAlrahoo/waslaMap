@@ -5,6 +5,7 @@ import LocationMarker from "./LocationMarker";
 import RegionsPrices from "./RegionsPrices";
 import { motion, useAnimation } from "framer-motion";
 import SelectDays from "./SelectDays";
+import SelectDestination from "./SelectDestination";
 function Map() {
   const priceAnimation = useAnimation();
   const mapRevealAnimation = useAnimation();
@@ -13,6 +14,10 @@ function Map() {
   const [latLong, setLatLong] = useState({});
   const [price, setPrice] = useState();
   const [days, setDays] = useState(0);
+  const [destination, setDestination] = useState(0);
+  const [distance, setDistance] = useState(0);
+  console.log(distance, "testtttttt")
+  console.log(destination, "dest")
   const Locator = () => {
     navigator.geolocation.getCurrentPosition(
       function (position) {
@@ -44,6 +49,7 @@ function Map() {
       zoomControl: false,
       fullscreenControl: false,
       gestureHandling: "greedy",
+      clickableIcons: false,
     };
   };
  const HandleChange = () =>
@@ -84,8 +90,9 @@ function Map() {
           }}
           center={{ lat: latLong.lat, lng: latLong.lng }}
           yesIWantToUseGoogleMapApiInternals
+          
           onGoogleApiLoaded={({ map, maps }) =>
-            RegionsPrices(map, maps, setPrice, setLatLong, latLong, Locator, priceAnimation)
+            RegionsPrices(map, maps,destination,setDistance ,setPrice, setLatLong, latLong, Locator, priceAnimation)
           }
           options={createMapOptions}
         >
@@ -95,6 +102,8 @@ function Map() {
               priceAnimation={priceAnimation}
               days={days}
               price={price}
+              distance={distance}
+              destination={destination}
               setLatLong={setLatLong}
               lat={latLong.lat}
               lng={latLong.lng}
@@ -113,8 +122,9 @@ function Map() {
             </button>
           </motion.button>
         </div>
-        <div className="w-screen mx-auto my-5 fixed top-2">
+        <div className="w-screen mx-auto my-5 fixed top-2 flex md:flex-row md:justify-center flex-col items-center">
           <SelectDays days={days} setDays={setDays}></SelectDays>
+          <SelectDestination setReRenderKey={setReRenderKey} reRenderKey={reRenderKey} destination={destination} setDestination={setDestination}></SelectDestination>
         </div>
       </div>
     </motion.div>

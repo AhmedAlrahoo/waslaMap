@@ -25,7 +25,7 @@ const handleLabel = (days) => {
 };
 function SelectDays({ days, setDays }) {
   return (
-    <Menu as="div" className="relative inline-block text-left w-1/2">
+    <Menu as="div" className="relative inline-block text-left md:w-1/4 w-3/4 m-1">
       <div>
         <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-lg font-medium text-secondary hover:bg-gray-50 focus:outline-none ">
           {handleLabel(days)}
