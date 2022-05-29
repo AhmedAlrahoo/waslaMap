@@ -11,93 +11,82 @@ function LocationMarker({
 }) {
   
   function handlePriceDistance(days,distance, destination){
-    if(destination === "المحطة"){
-      let price = ((45000 + (1500 * (distance/1000))) - (Math.round((45000 + (1500 * (distance/1000)))/5000)*5000)) > 1000 ? (Math.ceil((45000 + (1500 * (distance/1000)))/5000)*5000) : (Math.round((45000 + (1500 * (distance/1000)))/5000)*5000);
+    let offset = 50000;
+    if(distance > 10000){
+      offset -= 5000
+    }
+    if(destination === "الجامعة"){
+      let price = ((offset + (1500 * (distance/1000))) - (Math.round((offset + (1500 * (distance/1000)))/5000)*5000)) > 1000 ? (Math.ceil((offset + (1500 * (distance/1000)))/5000)*5000) : (Math.round((offset + (1500 * (distance/1000)))/5000)*5000);
       return parseInt(days) === 5 ? Intl.NumberFormat("en-US").format(price) : Intl.NumberFormat("en-US").format(price - 5000 - (30000 - ((parseInt(days)-1)*10000)))
     }
-    else if(destination === "الجامعة"){
-      let price = ((50000 + (1500 * (distance/1000))) - (Math.round((50000 + (1500 * (distance/1000)))/5000)*5000)) > 1000 ? (Math.ceil((50000 + (1500 * (distance/1000)))/5000)*5000) : (Math.round((50000 + (1500 * (distance/1000)))/5000)*5000);
-      return parseInt(days) === 5 ? Intl.NumberFormat("en-US").format(price) : Intl.NumberFormat("en-US").format(price - 5000 - (30000 - ((parseInt(days)-1)*10000)))
-    }
-    else return "المنطقة غير مشمولة"
+    else {
+      let price = (((offset - 5000) + (1500 * (distance/1000))) - (Math.round(((offset - 5000) + (1500 * (distance/1000)))/5000)*5000)) > 1000 ? (Math.ceil(((offset - 5000) + (1500 * (distance/1000)))/5000)*5000) : (Math.round(((offset - 5000) + (1500 * (distance/1000)))/5000)*5000);
+      return parseInt(days) === 5 ? Intl.NumberFormat("en-US").format(price) : Intl.NumberFormat("en-US").format(price - 5000 - (30000 - ((parseInt(days)-1)*10000)))}
+
     
     
   }
-  function handlePrice(days, price) {
-    switch (days) {
-      case "1":
-        switch (price) {
-          case 65000:
-            return Intl.NumberFormat("en-US").format(30000);
-          case 70000:
-            return Intl.NumberFormat("en-US").format(35000);
-          default:
-            return Intl.NumberFormat("en-US").format(25000);
-        }
-      case "2":
-        switch (price) {
-          case 55000:
-            return Intl.NumberFormat("en-US").format(30000);
-          case 60000:
-            return Intl.NumberFormat("en-US").format(35000);
-          case 65000:
-            return Intl.NumberFormat("en-US").format(40000);
-          case 70000:
-            return Intl.NumberFormat("en-US").format(45000);
-            default: return 0
-        }
-      case "3":
-        switch (price) {
-          case 55000:
-            return Intl.NumberFormat("en-US").format(40000);
-          case 60000:
-            return Intl.NumberFormat("en-US").format(45000);
-          case 65000:
-            return Intl.NumberFormat("en-US").format(50000);
-          case 70000:
-            return Intl.NumberFormat("en-US").format(55000);
-            default: return 0
-        }
 
-      case "4":
-        switch (price) {
-          case 55000:
-            return Intl.NumberFormat("en-US").format(50000);
-          case 60000:
-            return Intl.NumberFormat("en-US").format(55000);
-          case 65000:
-            return Intl.NumberFormat("en-US").format(60000);
-          case 70000:
-            return Intl.NumberFormat("en-US").format(65000);
-            default: return 0
-        }
+  // zones pricing system
+  // function handlePrice(days, price) {
+  //   switch (days) {
+  //     case "1":
+  //       switch (price) {
+  //         case 65000:
+  //           return Intl.NumberFormat("en-US").format(30000);
+  //         case 70000:
+  //           return Intl.NumberFormat("en-US").format(35000);
+  //         default:
+  //           return Intl.NumberFormat("en-US").format(25000);
+  //       }
+  //     case "2":
+  //       switch (price) {
+  //         case 55000:
+  //           return Intl.NumberFormat("en-US").format(30000);
+  //         case 60000:
+  //           return Intl.NumberFormat("en-US").format(35000);
+  //         case 65000:
+  //           return Intl.NumberFormat("en-US").format(40000);
+  //         case 70000:
+  //           return Intl.NumberFormat("en-US").format(45000);
+  //           default: return 0
+  //       }
+  //     case "3":
+  //       switch (price) {
+  //         case 55000:
+  //           return Intl.NumberFormat("en-US").format(40000);
+  //         case 60000:
+  //           return Intl.NumberFormat("en-US").format(45000);
+  //         case 65000:
+  //           return Intl.NumberFormat("en-US").format(50000);
+  //         case 70000:
+  //           return Intl.NumberFormat("en-US").format(55000);
+  //           default: return 0
+  //       }
 
-      case "5":
-        switch (price) {
-          default:
-            return Intl.NumberFormat("en-US").format(price);
-        }
-      default:
-        return Intl.NumberFormat("en-US").format(price);
-    }
-  }
-  function handleLabel(days, price) {
-    if (price && days) {
-      return handlePrice(days, price);
-    } else if (price && !days) {
-      return "اختر عدد الايام";
-    } else if (!price && days) {
-      return "المنطقة غير مشمولة";
-    } else {
-      return "المنطقة غير مشمولة";
-    }
-  }
-  //   const handlePrice = (price)=>{
-  // if(price){
-  //  return Intl.NumberFormat("en-US").format(price)
-  // }
-  // else return "حدد المنطقة"
+  //     case "4":
+  //       switch (price) {
+  //         case 55000:
+  //           return Intl.NumberFormat("en-US").format(50000);
+  //         case 60000:
+  //           return Intl.NumberFormat("en-US").format(55000);
+  //         case 65000:
+  //           return Intl.NumberFormat("en-US").format(60000);
+  //         case 70000:
+  //           return Intl.NumberFormat("en-US").format(65000);
+  //           default: return 0
+  //       }
+
+  //     case "5":
+  //       switch (price) {
+  //         default:
+  //           return Intl.NumberFormat("en-US").format(price);
+  //       }
+  //     default:
+  //       return Intl.NumberFormat("en-US").format(price);
   //   }
+  // }
+
   function handleLabelDistance(days,distance,destination){
 
     if (days && destination) {

@@ -1,44 +1,89 @@
 import Coords from "../coords/Coords";
 
-function RegionsPrices(map, maps,destination,setDistance, setPrice, setLatLong, latLong) {
+function RegionsPrices(
+  selector,
+  map,
+  maps,
+  destination,
+  setDistance,
+  setPrice,
+  setLatLong,
+  latLong
+) {
+  var directionsService = new maps.DirectionsService();
+  var directionsRenderer = new maps.DirectionsRenderer();
+  var distanceService = new maps.DistanceMatrixService();
+  directionsRenderer.setMap(map);
 
-  // switch (destination) {
-  //   case "الجامعة": 
-  //   setDistance(maps.geometry.spherical.computeDistanceBetween(latLong, {lat:36.3816953, lng:43.1430527}))
-  //   break;
-  //   case "المحطة":
-  //   setDistance(maps.geometry.spherical.computeDistanceBetween(latLong, {lat:36.340599, lng:43.155182}))
-  //   break;
-  //   default: console.log("default");;
-  // }
+  function closestGate(latLng) {
+    distanceService.getDistanceMatrix(
+      {
+        origins: [latLng],
+        destinations: [
+          { lat: 36.378297, lng: 43.138933 },
+          { lat: 36.388654, lng: 43.146835 },
+        ],
+        travelMode: "DRIVING",
+      },
+      callback
+    );
 
-    var directionsService =  new maps.DirectionsService();
-    var directionsRenderer =  new maps.DirectionsRenderer();
-    directionsRenderer.setMap(map);
-  
-  
-  function calcRoute(latLng) {
-    let destLatLng;
-    if(destination === "الجامعة"){
-      destLatLng = {lat:36.3816953, lng:43.1430527}
+    function callback(response, status) {
+      if (status === "OK") {
+        setDistance(
+          Math.min(
+            response.rows[0].elements[0].distance.value,
+            response.rows[0].elements[1].distance.value
+          )
+        );
+      }
     }
-    else if(destination === "المحطة"){
-      destLatLng = {lat:36.340599, lng:43.155182}
-    }
-    else return ;
+  }
+
+  function findDistance(latLng, destLatLng) {
     var request = {
-        origin: latLng,
-        destination: destLatLng,
-        travelMode: maps.TravelMode["DRIVING"],
+      origin: latLng,
+      destination: destLatLng,
+      travelMode: maps.TravelMode["DRIVING"],
     };
-    directionsService.route(request, function(response, status) {
-      if (status === 'OK') {
-        console.log(response.routes[0].legs[0].distance.text);
+    directionsService.route(request, function (response, status) {
+      if (status === "OK") {
+        //directionsRenderer.setDirections(response); //Show Route
         setDistance(response.routes[0].legs[0].distance.value);
       }
     });
   }
+
+  function calcRoute(latLng) {
+    let destLatLng;
+    switch (destination) {
+      case "الجامعة":
+        closestGate(latLng);
+        break;
+      case "المحطة":
+        destLatLng = { lat: 36.340599, lng: 43.155182 };
+        findDistance(latLng, destLatLng);
+        break;
+      case "القادة للبنين":
+        destLatLng = { lat: 36.372985, lng: 43.144644 };
+        findDistance(latLng, destLatLng);
+        break;
+      case "القادة للبنات":
+        destLatLng = { lat: 36.385766, lng: 43.182335 };
+        findDistance(latLng, destLatLng);
+        break;
+      case "دار الموهوبين":
+          destLatLng = { lat: 36.367328, lng: 43.186207 };
+          findDistance(latLng, destLatLng);
+        break;
+      default:
+        setDistance(0);
+        break;
+    }
+  }
+
   calcRoute(latLong);
+
   var L_Zone_1 = new maps.Polygon({
     paths: Coords["left-region_1"],
   });
@@ -95,17 +140,8 @@ function RegionsPrices(map, maps,destination,setDistance, setPrice, setLatLong, 
 
   maps.event.addListener(map, "click", (e) => {
     setLatLong({ lat: e.latLng.lat(), lng: e.latLng.lng() });
-  //   switch (destination) {
-  //   case "الجامعة": 
-  //   setDistance(maps.geometry.spherical.computeDistanceBetween({ lat: e.latLng.lat(), lng: e.latLng.lng() }, {lat:36.3816953, lng:43.1430527}))
-  //   break;
-  //   case "المحطة":
-  //   setDistance(maps.geometry.spherical.computeDistanceBetween({ lat: e.latLng.lat(), lng: e.latLng.lng() }, {lat:36.340599, lng:43.155182}))
-  //   break;
-  //   default: ;
-  // }
+    calcRoute({ lat: e.latLng.lat(), lng: e.latLng.lng() });
 
-    calcRoute({ lat: e.latLng.lat(), lng: e.latLng.lng() })
     if (
       maps.geometry.poly.containsLocation(
         { lat: e.latLng.lat(), lng: e.latLng.lng() },

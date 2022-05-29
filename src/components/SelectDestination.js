@@ -5,24 +5,24 @@ import { ChevronDownIcon } from "@heroicons/react/solid";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
-const handleLabel = (destination) => {
-  if (destination) {
-    switch (destination) {
-      case "الجامعة":
-        return "الجامعة";
-      case "المحطة":
-        return "المحطة";
-      default:
-        return "اختر الوجهة";
-    }
-  } else return "اختر الوجهة";
-};
-function SelectDestination({ setReRenderKey,reRenderKey, destination, setDestination }) {
+// const handleLabel = (destination) => {
+//   if (destination) {
+//     switch (destination) {
+//       case "الجامعة":
+//         return "الجامعة";
+//       case "المحطة":
+//         return "المحطة";
+//       default:
+//         return "اختر الوجهة";
+//     }
+//   } else return "اختر الوجهة";
+// };
+function SelectDestination({selector ,setReRenderKey,reRenderKey, destination, setDestination }) {
   return (
     <Menu as="div" className="relative inline-block text-left md:w-1/4 w-3/4 m-1">
       <div>
         <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-lg font-medium text-secondary hover:bg-gray-50 focus:outline-none ">
-          {handleLabel(destination)}
+          {destination ? destination : "اختر الوجهة"}
           <ChevronDownIcon className="absolute right-4 -mr-1 ml-2 h-5 w-5" aria-hidden="true" />
         </Menu.Button>
       </div>
@@ -49,9 +49,9 @@ function SelectDestination({ setReRenderKey,reRenderKey, destination, setDestina
                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                     "w-full px-4 py-2 text-lg"
                   )}
-                  value={"الجامعة"}
+                  value={selector ? "القادة للبنين" : "الجامعة"}
                 >
-                  الجامعة
+                  {selector ? "القادة للبنين" : "الجامعة"}
                 </button>
               )}
             </Menu.Item>
@@ -65,9 +65,9 @@ function SelectDestination({ setReRenderKey,reRenderKey, destination, setDestina
                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                     "w-full px-4 py-2 text-lg"
                   )}
-                  value={"المحطة"}
+                  value={selector ? "القادة للبنات" : "المحطة"}
                 >
-                  المحطة
+                  {selector ? "القادة للبنات" : "المحطة"}
                 </button>
               )}
             </Menu.Item>

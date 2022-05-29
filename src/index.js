@@ -9,6 +9,7 @@ ReactDOM.render(
     <Routes>
       <Route exact path="/" element={<Map />} />
       <Route path="/Reg" element={<App />} />
+      <Route exact path="/:selector" element={<Map />} />
     </Routes>
   </BrowserRouter>,
 
